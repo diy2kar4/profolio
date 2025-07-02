@@ -174,7 +174,7 @@ document.addEventListener('DOMContentLoaded', function() {
             isPlaying = true;
         }
         updatePlayButton();
-    }, 1000);
+    }, 300);
 }); 
 document.addEventListener('DOMContentLoaded', function () {
     const audio = document.getElementById('myAudio');
@@ -192,7 +192,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // Danh sách cặp video + nhạc
     const mediaPairs = [
         { video: "./assets/back/default.mp4", audio: "./assets/music/song1.mp3" },
-        { video: "./assets/back/video1.mp4", audio: "./assets/music/song2.mp3" },
         { video: "./assets/back/video2.mp4", audio: "./assets/music/song3.mp3" }
     ];
 
