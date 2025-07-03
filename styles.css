@@ -635,6 +635,7 @@ body.video-normal #video-overlay {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  height: 50px;
 }
 
 .kill-item {
