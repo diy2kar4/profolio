@@ -208,4 +208,19 @@ document.addEventListener('DOMContentLoaded', function () {
     killFeed.appendChild(div);
     setTimeout(() => div.remove(), 3000);
   }
+
+   window.addEventListener('wheel', function(e) {
+    if (e.ctrlKey) {
+      e.preventDefault();
+    }
+  }, { passive: false });
+
+  // Chặn zoom bằng Ctrl + "+" hoặc Ctrl + "-"
+  window.addEventListener('keydown', function(e) {
+    if (e.ctrlKey && (e.key === '+' || e.key === '-' || e.key === '=')) {
+      e.preventDefault();
+    }
+  });
 });
+
+
