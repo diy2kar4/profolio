@@ -293,6 +293,10 @@ body {
   100% { opacity: 1; }
 }
 
+#username {
+  color: white;
+}
+
 #username-container {
   position: absolute;
   top: 110px;

@@ -6,33 +6,30 @@
   <meta name="theme-color" content="#000000">
   <title>NL///</title>
   <meta name="description" content="DOWNLOAD VIETNAM CS2 CHEAT CLIENT profolio.blog">
-  <meta name="keywords" content="free cs2 cheat, free cs2 cheat vietnam, free cs2 cheat vietnamese, free cs2 cheat vietnamese client, free cs2 cheat vietnamese client download, free cs2 cheat vietnamese client download link, free cs2 cheat vietnamese client download link 2024, free cs2 cheat vietnamese client download link 2024 no password, free cs2 cheat vietnamese client download link 2024 no password required, hack cs2, hack csgo, free hack cs2, profolio.blog, profolio">
+  <meta name="keywords" content="free cs2 cheat, hack cs2, hack csgo, profolio">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://profolio.blog.com/" />
-  
-  <!-- OPEN GRAPH (Facebook, Zalo, Discord...) -->
+
+  <!-- OG Tags -->
   <meta property="og:title" content="Trang Web Của Tôi" />
   <meta property="og:description" content="Làm cho vui thoi" />
   <meta property="og:image" content="https://profolio.blog/assets/favico/icon.png" />
-  <link rel="image_src" href="https://profolio.blog/assets/favico/icon.png" />
   <meta property="og:url" content="https://profolio.blog.com/" />
   <meta property="og:type" content="website" />
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Comic+Neue&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-  <!-- Stylesheets -->
+  <!-- Styles -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-  <link rel="stylesheet" type="text/css" href="styles.css">
+  <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="./assets/css/tilt-effect.css">
 
-  <!-- Favicon -->
+  <!-- Icon -->
   <link rel="icon" type="image/png" href="./assets/favico/icon.png">
 
-  <!-- Libraries -->
+  <!-- Tilt -->
   <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.7.2/dist/vanilla-tilt.min.js"></script>
 </head>
 <body>
@@ -44,7 +41,10 @@
   <!-- Kill Feed -->
   <div class="kill-feed" id="kill-feed"></div>
 
-  <!-- Terminal UI -->
+  <!-- IP Info (draggable) -->
+  <div id="ip-info-container">Loading IP info...</div>
+
+  <!-- Terminal Window -->
   <div id="terminal">
     <div id="terminal-header">
       <div id="terminal-buttons">
@@ -58,40 +58,41 @@
     </div>
   </div>
 
-  <!-- Video Background -->
+  <!-- Background Video -->
   <div id="video-background">
     <video autoplay muted loop id="myVideo">
       <source src="./assets/back/default.mp4" type="video/mp4">
       Your browser does not support HTML5 video.
     </video>
 
+    <!-- Audio Background -->
     <div id="audio-background">
       <audio autoplay loop id="myAudio">
         <source src="./assets/music/song1.mp3" type="audio/mpeg">
       </audio>
     </div>
 
+    <!-- Dark Overlay -->
     <div id="video-overlay"></div>
+
+    <!-- Blurred Box with Profile -->
     <div id="blurred-box" class="tilt-element">
-      <!-- Profile Info -->
+      <!-- Avatar -->
       <div class="profile-picture-container">
         <img id="profile-picture" src="./assets/pfp/default.jpg" alt="Profile Picture">
-        <div id="discord-sync-indicator" class="sync-indicator">
-          <i class="fab fa-discord"></i>
-        </div>
+        <div id="discord-sync-indicator" class="sync-indicator"><i class="fab fa-discord"></i></div>
       </div>
-
       <img id="avatar-frame" src="" alt="Avatar Frame">
 
+      <!-- Username -->
       <p id="username-container">
-        <span id="username">c0mplex</span>
-        <span id="typing-cursor">|</span>
+        <span id="username">c0mplex</span><span id="typing-cursor">|</span>
       </p>
 
       <!-- Badges -->
       <div class="badges-container">
         <img src="./assets/badge/nitro.png" alt="nitro badge">
-        <img src="./assets/badge/f9f14cb0-9829-4556-a144-94b0aa0d508a.webp" alt="nitro badge">
+        <img src="./assets/badge/f9f14cb0-9829-4556-a144-94b0aa0d508a.webp" alt="badge">
         <img src="./assets/badge/1837-evolving-badge-nitro-24-months.png" alt="24month boost">
         <img src="./assets/badge/completed-a-quest.png" alt="quest badge">
         <img src="./assets/badge/discord.png" alt="Early Supporter Badge">
@@ -144,15 +145,13 @@
 
       <!-- Links -->
       <div class="links">
-        <a href="https://discord.com/users/1086262349276643441" target="_blank"><i class="fab fa-discord"></i></a>
+        <a href="https://discord.com/users/740133769872408688" target="_blank"><i class="fab fa-discord"></i></a>
         <a href="" target="_blank"><i class="fas fa-globe"></i></a>
         <a href="https://steamcommunity.com/id/khongcongidenoii" target="_blank"><i class="fa-brands fa-steam"></i></a>
         <a href="" target="_blank"><i class="fa-brands fa-tiktok"></i></a>
       </div>
     </div>
   </div>
-
-  <div id="ip-info-container"></div>
 
   <!-- Scripts -->
   <script src="./assets/js/error-handler.js"></script>
@@ -166,40 +165,5 @@
   <script src="./assets/js/music-control.js"></script>
   <script src="./assets/js/anti-debug.js"></script>
 
-  <!-- Inline Scripts -->
-  <script>
-    // IP Info
-    fetch("https://ipinfo.io/json?token=6e9609d324940d")
-  .then(res => res.json())
-  .then(data => {
-    const infoBox = document.getElementById("ip-info-container");
-    const [latitude, longitude] = data.loc.split(",");
-    infoBox.style.fontSize = "12px"; // 👈 chỉnh cỡ chữ nhỏ
-    infoBox.innerHTML = `
-      <strong>IP:</strong> ${data.ip}<br>
-      <strong>City:</strong> ${data.city}, ${data.region}, ${data.country}<br>
-      <strong>Timezone:</strong> ${data.timezone}<br>
-      <strong>Location:</strong> ${latitude}, ${longitude}
-    `;
-  })
-  .catch(err => console.error("IP Fetch Error:", err));
-
-
-    // Clock
-    function updateClock() {
-      const now = new Date();
-      let hours = now.getHours();
-      const minutes = String(now.getMinutes()).padStart(2, '0');
-      const seconds = String(now.getSeconds()).padStart(2, '0');
-      const ampm = hours >= 12 ? 'PM' : 'AM';
-      hours = hours % 12 || 12;
-      const timeStr = `${String(hours).padStart(2, '0')}:${minutes}:${seconds} ${ampm} | ${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}/${now.getFullYear()}`;
-      document.getElementById("clock").textContent = timeStr;
-    }
-    setInterval(updateClock, 1000);
-    updateClock();
-
-    // Kill Feed
-  </script>
 </body>
 </html>

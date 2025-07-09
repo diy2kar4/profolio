@@ -178,11 +178,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Dữ liệu killfeed
   const kills = [
-    [".", ["./assets/pfp/deagle.png", "./assets/pfp/awp.png", "./assets/pfp/g3sg1.png", "./assets/pfp/deagle.png", "./assets/pfp/ak47.png", "./assets/pfp/ssg08.png"], "You", ["./assets/pfp/headshot.png", "./assets/pfp/wallbang.png"]],
-    ["..", ["./assets/pfp/deagle.png", "./assets/pfp/awp.png", "./assets/pfp/g3sg1.png", "./assets/pfp/deagle.png", "./assets/pfp/ak47.png", "./assets/pfp/ssg08.png"], "Valve Corporation", ["./assets/pfp/headshot.png", "./assets/pfp/wallbang.png"]],
-    ["...", ["./assets/pfp/deagle.png", "./assets/pfp/awp.png", "./assets/pfp/g3sg1.png", "./assets/pfp/deagle.png", "./assets/pfp/ak47.png", "./assets/pfp/ssg08.png"], "Gabe Newell", ["./assets/pfp/headshot.png", "./assets/pfp/wallbang.png"]],
-    ["...", ["./assets/pfp/deagle.png", "./assets/pfp/awp.png", "./assets/pfp/g3sg1.png", "./assets/pfp/deagle.png", "./assets/pfp/ak47.png", "./assets/pfp/ssg08.png"], "Bot T", ["./assets/pfp/headshot.png", "./assets/pfp/wallbang.png"]],
-    ["...", ["./assets/pfp/deagle.png", "./assets/pfp/awp.png", "./assets/pfp/g3sg1.png", "./assets/pfp/deagle.png", "./assets/pfp/ak47.png", "./assets/pfp/ssg08.png"], "VACNET 3.0", ["./assets/pfp/headshot.png", "./assets/pfp/wallbang.png"]]
+    ["diy", ["./assets/pfp/deagle.png", "./assets/pfp/awp.png", "./assets/pfp/g3sg1.png", "./assets/pfp/deagle.png", "./assets/pfp/ak47.png", "./assets/pfp/ssg08.png"], "You", ["./assets/pfp/headshot.png", "./assets/pfp/wallbang.png"]],
+    ["diy2k4", ["./assets/pfp/deagle.png", "./assets/pfp/awp.png", "./assets/pfp/g3sg1.png", "./assets/pfp/deagle.png", "./assets/pfp/ak47.png", "./assets/pfp/ssg08.png"], "Valve Corporation", ["./assets/pfp/headshot.png", "./assets/pfp/wallbang.png"]],
+    ["kn1zMonster", ["./assets/pfp/deagle.png", "./assets/pfp/awp.png", "./assets/pfp/g3sg1.png", "./assets/pfp/deagle.png", "./assets/pfp/ak47.png", "./assets/pfp/ssg08.png"], "Gabe Newell", ["./assets/pfp/headshot.png", "./assets/pfp/wallbang.png"]],
+    ["Me", ["./assets/pfp/deagle.png", "./assets/pfp/awp.png", "./assets/pfp/g3sg1.png", "./assets/pfp/deagle.png", "./assets/pfp/ak47.png", "./assets/pfp/ssg08.png"], "Bot T", ["./assets/pfp/headshot.png", "./assets/pfp/wallbang.png"]],
+    ["sn4ke", ["./assets/pfp/deagle.png", "./assets/pfp/awp.png", "./assets/pfp/g3sg1.png", "./assets/pfp/deagle.png", "./assets/pfp/ak47.png", "./assets/pfp/ssg08.png"], "VACNET 3.0", ["./assets/pfp/headshot.png", "./assets/pfp/wallbang.png"]]
   ];
 
   // Hàm thêm killfeed
@@ -222,6 +222,36 @@ document.addEventListener('DOMContentLoaded', function () {
       e.preventDefault();
     }
   });
+
+  //Show IP information
+   fetch("https://ipinfo.io/json?token=6e9609d324940d")
+    .then(res => res.json())
+    .then(data => {
+      const infoBox = document.getElementById("ip-info-container");
+      const [latitude, longitude] = data.loc.split(",");
+      infoBox.style.fontSize = "12px";
+      infoBox.innerHTML = `
+        <strong>IP:</strong> ${data.ip}<br>
+        <strong>City:</strong> ${data.city}, ${data.region}, ${data.country}<br>
+        <strong>Timezone:</strong> ${data.timezone}<br>
+        <strong>Location:</strong> ${latitude}, ${longitude}
+      `;
+    })
+    .catch(err => console.error("IP Fetch Error:", err));
 });
+
+// Clock
+    function updateClock() {
+      const now = new Date();
+      let hours = now.getHours();
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12 || 12;
+      const timeStr = `${String(hours).padStart(2, '0')}:${minutes}:${seconds} ${ampm} | ${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}/${now.getFullYear()}`;
+      document.getElementById("clock").textContent = timeStr;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
 
 
