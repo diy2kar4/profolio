@@ -2,10 +2,12 @@ document.addEventListener("keydown", function (e) {
   if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "s") {
     e.preventDefault();
     alert("Hết cách rồi hẹ hẹ hẹ");
+    window.location.href = "chuidebug.html";
   }
   if (e.key === "F12" || (e.ctrlKey && e.shiftKey && ["I", "C", "J", "S"].includes(e.key)) || (e.ctrlKey && e.key.toLowerCase() === "u")) {
     e.preventDefault();
     alert("Hãy thương Dev đi mà :(");
+    window.location.href = "chuidebug.html";
   }
 });
 
@@ -16,7 +18,7 @@ document.addEventListener("contextmenu", e => e.preventDefault());
   setInterval(() => {
     if (window.outerHeight - window.innerHeight > threshold) {
       alert("Tắt DevTools đi thg ngu");
-      window.location.href = "about:blank";
+      window.location.href = "chuidebug.html";
     }
   }, 1000);
 })();
@@ -36,7 +38,7 @@ window.addEventListener("focus", () => blurOverlay.style.opacity = 0);
   setInterval(() => {
     if (devtools()) {
       alert("DevTools bị chặn.");
-      window.location.href = "about:blank";
+      window.location.href = "chuidebug.html";
     }
   }, 1000);
 })();
@@ -46,8 +48,8 @@ window.addEventListener("focus", () => blurOverlay.style.opacity = 0);
   Object.defineProperty(bait, "id", {
     get() {
       // Bị gọi khi console.log mở ra
-      alert("Tắt DevTools đi thg ngu! (lan2)");
-      window.location.href = "about:blank";
+      alert("Tắt DevTools đi thg ngu!");
+      window.location.href = "chuidebug.html";
     }
   });
   setInterval(() => console.log(bait), 1000);
@@ -65,7 +67,7 @@ window.addEventListener("focus", () => blurOverlay.style.opacity = 0);
   setInterval(() => {
     if (Function.prototype.toString !== original) {
       alert("Đừng cố gắng nữa!");
-      location.href = "about:blank";
+      window.location.href = "chuidebug.html";
     }
   }, 1000);
 })();
@@ -104,5 +106,6 @@ window.addEventListener("focus", () => blurOverlay.style.opacity = 0);
 
 console.log = function () {
   console.warn(">:(");
+  window.location.href = "chuidebug.html";
 };
 console.error = console.debug = console.warn = console.info = console.log;
