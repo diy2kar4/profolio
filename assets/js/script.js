@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
+  let isTerminalDone = false;
   var terminalContainer = document.getElementById('terminal');
   var terminalText = document.getElementById('terminal-text');
   var videoBackground = document.getElementById('myVideo');
@@ -33,6 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (currentIndex < terminalTextContent.length + 1) {
           typeWriter();
         } else {
+          isTerminalDone = true;
           addEventListeners();
         }
       }
@@ -42,15 +44,11 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function handleInput() {
-    terminalContainer.style.display = 'none';
-    videoBackground.play();
+     terminalContainer.style.display = 'none';
 
-    // Trigger auto-play music with random song
-    if (window.startMusicWithRandom) {
-      window.startMusicWithRandom();
-    } else {
-      audioBackground.play();
-    }
+   if (window.startMusicWithRandom) {
+    window.startMusicWithRandom(); // Gọi từ music-control.js
+  }
 
     blurredBox.style.display = 'block';
     removeEventListeners();
@@ -74,9 +72,9 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function handleKeyPress(event) {
-    if (event.key === 'Enter') {
-      handleInput();
-    }
+  if (event.key === 'Enter' && isTerminalDone) {
+    handleInput();
+  }
   }
 
 
