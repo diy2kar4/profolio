@@ -44,24 +44,37 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function handleInput() {
-     terminalContainer.style.display = 'none';
+  terminalContainer.style.display = 'none';
 
-   if (window.startMusicWithRandom) {
+  if (window.startMusicWithRandom) {
     window.startMusicWithRandom(); // Gọi từ music-control.js
   }
 
-    blurredBox.style.display = 'block';
-    removeEventListeners();
+  blurredBox.style.display = 'block';
+  removeEventListeners();
 
-    // 🟢 Bắt đầu killfeed sau khi nhấn Enter
-    let index = 0;
-    setInterval(() => {
-      const [tPlayer, weaponList, ctPlayer, extras] = kills[index];
-      const weaponSrc = weaponList[Math.floor(Math.random() * weaponList.length)];
-      addKillFeed(tPlayer, weaponSrc, ctPlayer, extras);
-      index = (index + 1) % kills.length;
-    }, 1000);
+  const scrollContainer = document.getElementById('scroll-container');
+if (scrollContainer) {
+  scrollContainer.style.display = 'inline-block';
+
+  // ✅ Tự động khởi động lại marquee nếu bị đứng sau khi hiện ra
+  const marquee = scrollContainer.querySelector('marquee');
+  if (marquee && typeof marquee.start === 'function') {
+    marquee.stop(); // dừng trước để reset
+    setTimeout(() => marquee.start(), 50); // khởi động lại sau một chút delay
   }
+}
+
+  // 🟢 Bắt đầu killfeed sau khi nhấn Enter
+  let index = 0;
+  setInterval(() => {
+    const [tPlayer, weaponList, ctPlayer, extras] = kills[index];
+    const weaponSrc = weaponList[Math.floor(Math.random() * weaponList.length)];
+    addKillFeed(tPlayer, weaponSrc, ctPlayer, extras);
+    index = (index + 1) % kills.length;
+  }, 1000);
+}
+
 
   function addEventListeners() {
     document.addEventListener('keydown', handleKeyPress);

@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Configuration object for easy customization
     const config = {
         usernames: [
-            "diy", 
+            "diy",
             "diy2k4",
             "kn1zMonster",
         ],
