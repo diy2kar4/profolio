@@ -874,3 +874,40 @@ a:hover {
     color: #000000;
   }
 }
+
+.faceit {
+  position: fixed;
+  top: 16px;
+  left: 13px;
+  background: rgba(0,0,0,0.7);
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  padding: 4px 8px;
+  border-radius: 16px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.4);
+  z-index: 9999;
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.faceit span {
+  display: inline-flex;       /* Để ảnh và text căn giữa theo chiều dọc */
+  align-items: center;
+  gap: 2px;                   /* Khoảng cách giữa icon và text */
+  white-space: nowrap;
+}
+
+.faceit-icon {
+  width: 23px;                /* Kích thước icon */
+  height: auto;
+  object-fit: contain;
+}
+
+.faceit-flag {
+  width: 20px;          /* giữ kích thước mong muốn */
+  height: auto;
+  border-radius: 4px;   /* 👈 bo góc 4px, chỉnh theo ý bạn */
+}
