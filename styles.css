@@ -838,7 +838,7 @@ marquee {
   display: inline-block;
 }
 
-c {
+a {
   font-size: 16px;
   text-transform: lowercase;
   text-decoration: none;
@@ -849,7 +849,7 @@ c {
   margin: 0 10px;
 }
 
-c:hover {
+a:hover {
   color: #a8a8a8;
 }
 
