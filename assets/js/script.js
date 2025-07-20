@@ -72,7 +72,7 @@ if (scrollContainer) {
     const weaponSrc = weaponList[Math.floor(Math.random() * weaponList.length)];
     addKillFeed(tPlayer, weaponSrc, ctPlayer, extras);
     index = (index + 1) % kills.length;
-  }, 1000);
+  }, 1100);
 }
 
 
