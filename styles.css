@@ -910,3 +910,10 @@ a:hover {
   height: auto;
   border-radius: 4px;   /* 👈 bo góc 4px, chỉnh theo ý bạn */
 }
+
+footer {
+  font-size: 0.8rem;
+  color: #666;
+  text-align: center;
+  padding: 10px 0;
+}
