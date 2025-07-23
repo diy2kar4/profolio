@@ -14,7 +14,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const mediaPairs = [
         { video: "./assets/back/default.mp4", audio: "./assets/music/song1.mp3" },
-        { video: "./assets/back/video2.mp4", audio: "./assets/music/song3.mp3" }
+        { video: "./assets/back/video2.mp4", audio: "./assets/music/song3.mp3" },
+        { video: "./assets/back/maomao.mp4", audio: null }
     ];
 
     function updatePlayButton() {
@@ -34,39 +35,47 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function playRandomSong(forcePlay = false) {
-        let randomIndex;
-        do {
-            randomIndex = Math.floor(Math.random() * mediaPairs.length);
-        } while (randomIndex === currentMediaIndex && mediaPairs.length > 1);
+    let randomIndex;
+    do {
+        randomIndex = Math.floor(Math.random() * mediaPairs.length);
+    } while (randomIndex === currentMediaIndex && mediaPairs.length > 1);
 
-        currentMediaIndex = randomIndex;
-        const selected = mediaPairs[randomIndex];
-        const wasPlaying = !audio.paused;
-        const currentVolume = audio.volume;
+    currentMediaIndex = randomIndex;
+    const selected = mediaPairs[randomIndex];
+    const wasPlaying = !audio.paused;
+    const currentVolume = audio.volume;
 
-        // Cập nhật audio
+    // Cập nhật video
+    video.innerHTML = `<source src="${selected.video}" type="video/mp4">`;
+    video.load();
+    video.loop = true;
+
+    // Cập nhật audio
+    if (selected.audio) {
         audio.innerHTML = `<source src="${selected.audio}" type="audio/mpeg">`;
         audio.load();
         audio.volume = currentVolume;
         audio.loop = true;
+    } else {
+        audio.pause();
+        audio.innerHTML = "";
+    }
 
-        // Cập nhật video
-        video.innerHTML = `<source src="${selected.video}" type="video/mp4">`;
-        video.load();
-        video.loop = true;
-
-        // Phát
-        if (wasPlaying || forcePlay) {
-            video.play().catch(err => console.error("Video play error:", err));
+    // Phát nếu cần
+    if (wasPlaying || forcePlay) {
+        video.play().catch(err => console.error("Video play error:", err));
+        if (selected.audio) {
             audio.play().catch(err => console.error("Audio play error:", err));
         }
-
-        // Hiệu ứng nút random
-        if (randomBtn) {
-            randomBtn.style.transform = 'scale(0.9)';
-            setTimeout(() => randomBtn.style.transform = 'scale(1)', 150);
-        }
     }
+
+    // Nút hiệu ứng
+    if (randomBtn) {
+        randomBtn.style.transform = 'scale(0.9)';
+        setTimeout(() => randomBtn.style.transform = 'scale(1)', 150);
+    }
+}
+
 
     playPauseBtn.addEventListener('click', function () {
         if (isPlaying) {
