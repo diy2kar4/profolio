@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
     "IP: Loading...",
     "System: Loading...",
     "Bio Loaded",
-    "Press Enter To Continue",
+    "Press Enter or Click To Continue",
   ];
   var currentIndex = 0;
 
@@ -75,6 +75,11 @@ if (scrollContainer) {
   }, 1100);
 }
 
+  function handleKeyPress(event) {
+  if (event.key === 'Enter' && isTerminalDone) {
+    handleInput();
+  }
+  }
 
   function addEventListeners() {
     document.addEventListener('keydown', handleKeyPress);
@@ -84,12 +89,19 @@ if (scrollContainer) {
     document.removeEventListener('keydown', handleKeyPress);
   }
 
-  function handleKeyPress(event) {
-  if (event.key === 'Enter' && isTerminalDone) {
+  function handleClick() {
+  if (isTerminalDone) {
     handleInput();
   }
   }
 
+  function addEventListeners() {
+    document.addEventListener('click', handleClick);
+  }
+
+  function removeEventListeners() {
+    document.removeEventListener('click', handleClick);
+  }
 
   fetch('https://api.ipify.org?format=json')
     .then(response => response.json())
