@@ -14,8 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const mediaPairs = [
         { video: "./assets/back/default.mp4", audio: "./assets/music/song1.mp3" },
-        { video: "./assets/back/video2.mp4", audio: "./assets/music/song3.mp3" },
-        { video: "./assets/back/maomao.mp4", audio: null }
+        { video: "./assets/back/video2.mp4", audio: "./assets/music/song3.mp3" }
     ];
 
     function updatePlayButton() {
@@ -144,4 +143,38 @@ document.addEventListener('DOMContentLoaded', function () {
         updateMuteButton();
         audio.volume = volumeSlider.value / 100;
     }, 500);
+
+    // Toggle buttons logic
+const toggleIcon = document.getElementById('toggleIcon');
+let currentMode = 'music';
+
+function switchToImageMode() {
+  currentMode = 'image';
+  video.innerHTML = `<source src="./assets/back/maomao.mp4" type="video/mp4">`;
+  video.load();
+  video.loop = true;
+  video.play().catch(err => console.error("Video play error:", err));
+  audio.pause();
+  audio.innerHTML = "";
+  toggleIcon.className = "fa-solid fa-video";
+}
+
+function switchToMusicMode() {
+  currentMode = 'music';
+  playRandomSong(true);
+  toggleIcon.className = "fa-solid fa-image";
+}
+
+toggleIcon.addEventListener('click', function () {
+  if (currentMode === 'music') {
+    switchToImageMode();
+  } else {
+    switchToMusicMode();
+  }
+});
+
+window.showMediaToggle = function () {
+  const toggleBtn = document.getElementById('media-toggle-buttons');
+  if (toggleBtn) toggleBtn.style.display = 'block';
+};
 });

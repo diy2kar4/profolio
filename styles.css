@@ -942,3 +942,22 @@ footer {
     transition: opacity 0.5s ease;
 }
 
+#media-toggle-buttons {
+  display: none; /* Ẩn hoàn toàn ban đầu */
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 9999;
+}
+
+#media-toggle-buttons i {
+  font-size: 42px;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+#media-toggle-buttons i:hover {
+  transform: scale(1.1);
+}
+

@@ -47,25 +47,28 @@ document.addEventListener('DOMContentLoaded', function () {
   terminalContainer.style.display = 'none';
 
   if (window.startMusicWithRandom) {
-    window.startMusicWithRandom(); // Gọi từ music-control.js
+    window.startMusicWithRandom();
+  }
+
+  // 👇 Hiển thị icon toggle khi terminal kết thúc
+  if (window.showMediaToggle) {
+    window.showMediaToggle();
   }
 
   blurredBox.style.display = 'block';
   removeEventListeners();
 
   const scrollContainer = document.getElementById('scroll-container');
-if (scrollContainer) {
-  scrollContainer.style.display = 'inline-block';
+  if (scrollContainer) {
+    scrollContainer.style.display = 'inline-block';
 
-  // ✅ Tự động khởi động lại marquee nếu bị đứng sau khi hiện ra
-  const marquee = scrollContainer.querySelector('marquee');
-  if (marquee && typeof marquee.start === 'function') {
-    marquee.stop(); // dừng trước để reset
-    setTimeout(() => marquee.start(), 50); // khởi động lại sau một chút delay
+    const marquee = scrollContainer.querySelector('marquee');
+    if (marquee && typeof marquee.start === 'function') {
+      marquee.stop();
+      setTimeout(() => marquee.start(), 50);
+    }
   }
-}
 
-  // 🟢 Bắt đầu killfeed sau khi nhấn Enter
   let index = 0;
   setInterval(() => {
     const [tPlayer, weaponList, ctPlayer, extras] = kills[index];
@@ -76,31 +79,25 @@ if (scrollContainer) {
 }
 
   function handleKeyPress(event) {
-  if (event.key === 'Enter' && isTerminalDone) {
-    handleInput();
-  }
-  }
-
-  function addEventListeners() {
-    document.addEventListener('keydown', handleKeyPress);
-  }
-
-  function removeEventListeners() {
-    document.removeEventListener('keydown', handleKeyPress);
+    if (event.key === 'Enter' && isTerminalDone) {
+      handleInput();
+    }
   }
 
   function handleClick() {
-  if (isTerminalDone) {
-    handleInput();
-  }
+    if (isTerminalDone) {
+      handleInput();
+    }
   }
 
   function addEventListeners() {
     document.addEventListener('click', handleClick);
+    document.addEventListener('keydown', handleKeyPress);
   }
 
   function removeEventListeners() {
     document.removeEventListener('click', handleClick);
+    document.removeEventListener('keydown', handleKeyPress);
   }
 
   fetch('https://api.ipify.org?format=json')
@@ -144,7 +141,7 @@ if (scrollContainer) {
         case "6.1": return "Windows 7";
         case "6.2": return "Windows 8";
         case "6.3": return "Windows 8.1";
-        case "10.0": return "Windows 10"; // Hoặc Windows 11, tùy context
+        case "10.0": return "Windows 10";
         default: return "Windows";
       }
     }
@@ -183,9 +180,8 @@ if (scrollContainer) {
 
   function getAsciiArt() {
     return `
-      
-      
-      
+
+
       
       i am a cheater
     `;
@@ -199,7 +195,6 @@ if (scrollContainer) {
 
   limitVolume(1);
 
-  // Dữ liệu killfeed
   const kills = [
     ["diy", ["./assets/pfp/deagle.png", "./assets/pfp/awp.png", "./assets/pfp/g3sg1.png", "./assets/pfp/r8.png", "./assets/pfp/ak47.png", "./assets/pfp/ssg08.png"], "You", ["./assets/pfp/headshot.png", "./assets/pfp/wallbang.png"]],
     ["diy2k4", ["./assets/pfp/deagle.png", "./assets/pfp/awp.png", "./assets/pfp/g3sg1.png", "./assets/pfp/r8.png", "./assets/pfp/ak47.png", "./assets/pfp/ssg08.png"], "Valve Corporation", ["./assets/pfp/headshot.png", "./assets/pfp/wallbang.png"]],
@@ -208,7 +203,6 @@ if (scrollContainer) {
     ["sn4ke", ["./assets/pfp/deagle.png", "./assets/pfp/awp.png", "./assets/pfp/g3sg1.png", "./assets/pfp/r8.png", "./assets/pfp/ak47.png", "./assets/pfp/ssg08.png"], "VACNET 3.0", ["./assets/pfp/headshot.png", "./assets/pfp/wallbang.png"]]
   ];
 
-  // Hàm thêm killfeed
   function addKillFeed(tPlayer, weaponSrc, ctPlayer, extras = []) {
     const killFeed = document.getElementById("kill-feed");
     const div = document.createElement("div");
@@ -233,21 +227,19 @@ if (scrollContainer) {
     setTimeout(() => div.remove(), 3000);
   }
 
-   window.addEventListener('wheel', function(e) {
+  window.addEventListener('wheel', function (e) {
     if (e.ctrlKey) {
       e.preventDefault();
     }
   }, { passive: false });
 
-  // Chặn zoom bằng Ctrl + "+" hoặc Ctrl + "-"
-  window.addEventListener('keydown', function(e) {
+  window.addEventListener('keydown', function (e) {
     if (e.ctrlKey && (e.key === '+' || e.key === '-' || e.key === '=')) {
       e.preventDefault();
     }
   });
 
-  //Show IP information
-   fetch("https://ipinfo.io/json?token=6e9609d324940d")
+  fetch("https://ipinfo.io/json?token=6e9609d324940d")
     .then(res => res.json())
     .then(data => {
       const infoBox = document.getElementById("ip-info-container");
@@ -262,19 +254,3 @@ if (scrollContainer) {
     })
     .catch(err => console.error("IP Fetch Error:", err));
 });
-
-// Clock
-    function updateClock() {
-      const now = new Date();
-      let hours = now.getHours();
-      const minutes = String(now.getMinutes()).padStart(2, '0');
-      const seconds = String(now.getSeconds()).padStart(2, '0');
-      const ampm = hours >= 12 ? 'PM' : 'AM';
-      hours = hours % 12 || 12;
-      const timeStr = `${String(hours).padStart(2, '0')}:${minutes}:${seconds} ${ampm} | ${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}/${now.getFullYear()}`;
-      document.getElementById("clock").textContent = timeStr;
-    }
-    setInterval(updateClock, 1000);
-    updateClock();
-
-
