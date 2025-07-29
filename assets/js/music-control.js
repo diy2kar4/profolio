@@ -17,12 +17,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const mediaPairs = [
         { video: "./assets/back/default.mp4", audio: "./assets/music/song1.mp3" },
-        { video: "./assets/back/video2.mp4", audio: "./assets/music/song3.mp3" }
+        { video: "./assets/back/video2.mp4", audio: "./assets/music/song3.mp3" },
+        { video: "./assets/back/fri1.mp4", audio: "./assets/music/fri1.mp3" }
     ];
 
     const imageMedia = [
-        { type: 'video', src: './assets/back/maomao.mp4', weight: 90 },
+        { type: 'video', src: './assets/back/maomao.mp4', weight: 45 },
         { type: 'image', src: './assets/pfp/thao.png', weight: 10 },
+        { type: 'video', src: './assets/back/frieren.mp4', audio: './assets/music/frieren.mp3', weight: 45 },
     ];
 
     function getWeightedRandomItem(items) {
@@ -172,43 +174,52 @@ document.addEventListener('DOMContentLoaded', function () {
     }, 500);
 
     function switchToImageMode() {
-        currentMode = 'image';
+    currentMode = 'image';
 
-        const randomItem = getWeightedRandomItem(imageMedia);
+    const randomItem = getWeightedRandomItem(imageMedia);
 
-        audio.pause();
-        audio.innerHTML = "";
+    audio.pause();
+    audio.innerHTML = "";
 
-        if (randomItem.type === 'video') {
-            if (video.tagName.toLowerCase() === 'img') {
-                const parent = video.parentElement;
-                const newVideo = document.createElement('video');
-                newVideo.id = 'myVideo';
-                newVideo.autoplay = true;
-                newVideo.loop = true;
-                newVideo.muted = true;
-                newVideo.playsInline = true;
-                newVideo.style = 'width:100%;height:100%;object-fit:cover;position:absolute;top:0;left:0;z-index:-1;';
-                parent.replaceChild(newVideo, video);
-                video = newVideo;
-            }
-
-            video.innerHTML = `<source src="${randomItem.src}" type="video/mp4">`;
-            video.load();
-            video.loop = true;
-            video.play().catch(err => console.error("Video play error:", err));
-        } else {
+    if (randomItem.type === 'video') {
+        if (video.tagName.toLowerCase() === 'img') {
             const parent = video.parentElement;
-            const img = document.createElement('img');
-            img.id = 'myVideo';
-            img.src = randomItem.src;
-            img.style = 'width:100vw;height:120vh;object-fit:cover;position:absolute;top:0;left:0;z-index:-1;';
-            video.remove();
-            parent.prepend(img);
-            video = img;
+            const newVideo = document.createElement('video');
+            newVideo.id = 'myVideo';
+            newVideo.autoplay = true;
+            newVideo.loop = true;
+            newVideo.muted = true;
+            newVideo.playsInline = true;
+            newVideo.style = 'width:100%;height:100%;object-fit:cover;position:absolute;top:0;left:0;z-index:-1;';
+            parent.replaceChild(newVideo, video);
+            video = newVideo;
         }
 
-        toggleIcon.className = "fa-solid fa-video";
+        video.innerHTML = `<source src="${randomItem.src}" type="video/mp4">`;
+        video.load();
+        video.loop = true;
+        video.play().catch(err => console.error("Video play error:", err));
+
+        if (randomItem.audio) {
+            audio.innerHTML = `<source src="${randomItem.audio}" type="audio/mpeg">`;
+            audio.load();
+            audio.volume = volumeSlider.value / 100;
+            audio.loop = true;
+            audio.play().catch(err => console.error("Audio play error:", err));
+        }
+
+    } else {
+        const parent = video.parentElement;
+        const img = document.createElement('img');
+        img.id = 'myVideo';
+        img.src = randomItem.src;
+        img.style = 'width:100vw;height:120vh;object-fit:cover;position:absolute;top:0;left:0;z-index:-1;';
+        video.remove();
+        parent.prepend(img);
+        video = img;
+    }
+
+    toggleIcon.className = "fa-solid fa-video";
     }
 
     function switchToMusicMode() {
