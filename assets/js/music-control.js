@@ -1,21 +1,42 @@
 document.addEventListener('DOMContentLoaded', function () {
     let isTerminalDone = false;
-    const audio = document.getElementById('myAudio');
-    const video = document.getElementById('myVideo');
-    const playPauseBtn = document.getElementById('playPauseBtn');
-    const muteBtn = document.getElementById('muteBtn');
-    const volumeSlider = document.getElementById('volumeSlider');
-    const randomBtn = document.getElementById('randomBtn');
-
     let isPlaying = false;
     let isMuted = false;
     let previousVolume = 1;
     let currentMediaIndex = -1;
+    let currentMode = 'music';
+
+    const audio = document.getElementById('myAudio');
+    let video = document.getElementById('myVideo');
+
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const muteBtn = document.getElementById('muteBtn');
+    const volumeSlider = document.getElementById('volumeSlider');
+    const randomBtn = document.getElementById('randomBtn');
+    const toggleIcon = document.getElementById('toggleIcon');
 
     const mediaPairs = [
         { video: "./assets/back/default.mp4", audio: "./assets/music/song1.mp3" },
         { video: "./assets/back/video2.mp4", audio: "./assets/music/song3.mp3" }
     ];
+
+    const imageMedia = [
+        { type: 'video', src: './assets/back/maomao.mp4', weight: 90 },
+        { type: 'image', src: './assets/pfp/thao.png', weight: 10 },
+    ];
+
+    function getWeightedRandomItem(items) {
+        const totalWeight = items.reduce((sum, item) => sum + (item.weight || 1), 0);
+        const rand = Math.random() * totalWeight;
+        let cumulative = 0;
+
+        for (const item of items) {
+            cumulative += item.weight || 1;
+            if (rand <= cumulative) return item;
+        }
+
+        return items[items.length - 1];
+    }
 
     function updatePlayButton() {
         const icon = playPauseBtn.querySelector('i');
@@ -34,47 +55,55 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function playRandomSong(forcePlay = false) {
-    let randomIndex;
-    do {
-        randomIndex = Math.floor(Math.random() * mediaPairs.length);
-    } while (randomIndex === currentMediaIndex && mediaPairs.length > 1);
+        let randomIndex;
+        do {
+            randomIndex = Math.floor(Math.random() * mediaPairs.length);
+        } while (randomIndex === currentMediaIndex && mediaPairs.length > 1);
 
-    currentMediaIndex = randomIndex;
-    const selected = mediaPairs[randomIndex];
-    const wasPlaying = !audio.paused;
-    const currentVolume = audio.volume;
+        currentMediaIndex = randomIndex;
+        const selected = mediaPairs[randomIndex];
+        const wasPlaying = !audio.paused;
+        const currentVolume = audio.volume;
 
-    // Cập nhật video
-    video.innerHTML = `<source src="${selected.video}" type="video/mp4">`;
-    video.load();
-    video.loop = true;
+        if (video.tagName.toLowerCase() === 'img') {
+            const parent = video.parentElement;
+            const newVideo = document.createElement('video');
+            newVideo.id = 'myVideo';
+            newVideo.autoplay = true;
+            newVideo.loop = true;
+            newVideo.muted = true;
+            newVideo.playsInline = true;
+            newVideo.style = 'width:100%;height:100%;object-fit:cover;position:absolute;top:0;left:0;z-index:-1;';
+            parent.replaceChild(newVideo, video);
+            video = newVideo;
+        }
 
-    // Cập nhật audio
-    if (selected.audio) {
-        audio.innerHTML = `<source src="${selected.audio}" type="audio/mpeg">`;
-        audio.load();
-        audio.volume = currentVolume;
-        audio.loop = true;
-    } else {
-        audio.pause();
-        audio.innerHTML = "";
-    }
+        video.innerHTML = `<source src="${selected.video}" type="video/mp4">`;
+        video.load();
+        video.loop = true;
 
-    // Phát nếu cần
-    if (wasPlaying || forcePlay) {
-        video.play().catch(err => console.error("Video play error:", err));
         if (selected.audio) {
-            audio.play().catch(err => console.error("Audio play error:", err));
+            audio.innerHTML = `<source src="${selected.audio}" type="audio/mpeg">`;
+            audio.load();
+            audio.volume = currentVolume;
+            audio.loop = true;
+        } else {
+            audio.pause();
+            audio.innerHTML = "";
+        }
+
+        if (wasPlaying || forcePlay) {
+            video.play().catch(err => console.error("Video play error:", err));
+            if (selected.audio) {
+                audio.play().catch(err => console.error("Audio play error:", err));
+            }
+        }
+
+        if (randomBtn) {
+            randomBtn.style.transform = 'scale(0.9)';
+            setTimeout(() => randomBtn.style.transform = 'scale(1)', 150);
         }
     }
-
-    // Nút hiệu ứng
-    if (randomBtn) {
-        randomBtn.style.transform = 'scale(0.9)';
-        setTimeout(() => randomBtn.style.transform = 'scale(1)', 150);
-    }
-}
-
 
     playPauseBtn.addEventListener('click', function () {
         if (isPlaying) {
@@ -131,12 +160,10 @@ document.addEventListener('DOMContentLoaded', function () {
         playRandomSong(true);
     });
 
-    // Hàm gọi từ script.js nếu cần
     window.startMusicWithRandom = function () {
         playRandomSong(true);
     };
 
-    // Khởi tạo nút ban đầu
     setTimeout(() => {
         isPlaying = !audio.paused;
         updatePlayButton();
@@ -144,37 +171,76 @@ document.addEventListener('DOMContentLoaded', function () {
         audio.volume = volumeSlider.value / 100;
     }, 500);
 
-    // Toggle buttons logic
-const toggleIcon = document.getElementById('toggleIcon');
-let currentMode = 'music';
+    function switchToImageMode() {
+        currentMode = 'image';
 
-function switchToImageMode() {
-  currentMode = 'image';
-  video.innerHTML = `<source src="./assets/back/maomao.mp4" type="video/mp4">`;
-  video.load();
-  video.loop = true;
-  video.play().catch(err => console.error("Video play error:", err));
-  audio.pause();
-  audio.innerHTML = "";
-  toggleIcon.className = "fa-solid fa-video";
-}
+        const randomItem = getWeightedRandomItem(imageMedia);
 
-function switchToMusicMode() {
-  currentMode = 'music';
-  playRandomSong(true);
-  toggleIcon.className = "fa-solid fa-image";
-}
+        audio.pause();
+        audio.innerHTML = "";
 
-toggleIcon.addEventListener('click', function () {
-  if (currentMode === 'music') {
-    switchToImageMode();
-  } else {
-    switchToMusicMode();
-  }
-});
+        if (randomItem.type === 'video') {
+            if (video.tagName.toLowerCase() === 'img') {
+                const parent = video.parentElement;
+                const newVideo = document.createElement('video');
+                newVideo.id = 'myVideo';
+                newVideo.autoplay = true;
+                newVideo.loop = true;
+                newVideo.muted = true;
+                newVideo.playsInline = true;
+                newVideo.style = 'width:100%;height:100%;object-fit:cover;position:absolute;top:0;left:0;z-index:-1;';
+                parent.replaceChild(newVideo, video);
+                video = newVideo;
+            }
 
-window.showMediaToggle = function () {
-  const toggleBtn = document.getElementById('media-toggle-buttons');
-  if (toggleBtn) toggleBtn.style.display = 'block';
-};
+            video.innerHTML = `<source src="${randomItem.src}" type="video/mp4">`;
+            video.load();
+            video.loop = true;
+            video.play().catch(err => console.error("Video play error:", err));
+        } else {
+            const parent = video.parentElement;
+            const img = document.createElement('img');
+            img.id = 'myVideo';
+            img.src = randomItem.src;
+            img.style = 'width:100vw;height:120vh;object-fit:cover;position:absolute;top:0;left:0;z-index:-1;';
+            video.remove();
+            parent.prepend(img);
+            video = img;
+        }
+
+        toggleIcon.className = "fa-solid fa-video";
+    }
+
+    function switchToMusicMode() {
+        currentMode = 'music';
+
+        if (video.tagName.toLowerCase() === 'img') {
+            const parent = video.parentElement;
+            const newVideo = document.createElement('video');
+            newVideo.id = 'myVideo';
+            newVideo.autoplay = true;
+            newVideo.loop = true;
+            newVideo.muted = true;
+            newVideo.playsInline = true;
+            newVideo.style = 'width:100%;height:100%;object-fit:cover;position:absolute;top:0;left:0;z-index:-1;';
+            parent.replaceChild(newVideo, video);
+            video = newVideo;
+        }
+
+        playRandomSong(true);
+        toggleIcon.className = "fa-solid fa-image";
+    }
+
+    toggleIcon.addEventListener('click', function () {
+        if (currentMode === 'music') {
+            switchToImageMode();
+        } else {
+            switchToMusicMode();
+        }
+    });
+
+    window.showMediaToggle = function () {
+        const toggleBtn = document.getElementById('media-toggle-buttons');
+        if (toggleBtn) toggleBtn.style.display = 'block';
+    };
 });
