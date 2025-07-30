@@ -22,9 +22,9 @@ document.addEventListener('DOMContentLoaded', function () {
     ];
 
     const imageMedia = [
-        { type: 'video', src: './assets/back/maomao.mp4', weight: 10 },
-        { type: 'image', src: './assets/pfp/thao.png', weight: 80 },
-        { type: 'video', src: './assets/back/frieren.mp4', audio: './assets/music/frieren.mp3', weight: 10 },
+        { type: 'video', src: './assets/back/maomao.mp4', weight: 50 },
+        { type: 'image', src: './assets/pfp/thao.png', weight: 5 },
+        { type: 'video', src: './assets/back/frieren.mp4', audio: './assets/music/frieren.mp3', weight: 45 },
     ];
 
     function getWeightedRandomItem(items) {
