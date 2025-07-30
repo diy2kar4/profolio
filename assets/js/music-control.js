@@ -22,9 +22,9 @@ document.addEventListener('DOMContentLoaded', function () {
     ];
 
     const imageMedia = [
-        { type: 'video', src: './assets/back/maomao.mp4', weight: 45 },
-        { type: 'image', src: './assets/pfp/thao.png', weight: 10 },
-        { type: 'video', src: './assets/back/frieren.mp4', audio: './assets/music/frieren.mp3', weight: 45 },
+        { type: 'video', src: './assets/back/maomao.mp4', weight: 10 },
+        { type: 'image', src: './assets/pfp/thao.png', weight: 80 },
+        { type: 'video', src: './assets/back/frieren.mp4', audio: './assets/music/frieren.mp3', weight: 10 },
     ];
 
     function getWeightedRandomItem(items) {
@@ -213,7 +213,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const img = document.createElement('img');
         img.id = 'myVideo';
         img.src = randomItem.src;
-        img.style = 'width:100vw;height:120vh;object-fit:cover;position:absolute;top:0;left:0;z-index:-1;';
+        img.style = 'max-width:100vw;max-height:100vh;object-fit:cover;position:absolute;top:0;left:0;z-index:-1;';
         video.remove();
         parent.prepend(img);
         video = img;
