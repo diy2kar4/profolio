@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://profolio.blog.com/sitemap.xml
+Sitemap: https://diy2kay4.me/sitemap.xml
