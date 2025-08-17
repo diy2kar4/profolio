@@ -16,9 +16,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const toggleIcon = document.getElementById('toggleIcon');
 
     const mediaPairs = [
-        { video: "./assets/back/default.mp4", audio: "./assets/music/song1.mp3" },
-        { video: "./assets/back/video2.mp4", audio: "./assets/music/song3.mp3" },
-        { video: "./assets/back/fri1.mp4", audio: "./assets/music/fri1.mp3" }
+        { video: "./assets/back/default.mp4", audio: "./assets/music/song1.mp3", weight: 33 },
+        { video: "./assets/back/video2.mp4", audio: "./assets/music/song3.mp3", weight: 33 },
+        { video: "./assets/back/fri1.mp4", audio: "./assets/music/fri1.mp3", weight: 33 }
     ];
 
     const imageMedia = [
